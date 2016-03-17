@@ -43,9 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App\AppConstants.cs" />
-    <Compile Include="App\AppInterfaces.cs" />
-    <Compile Include="App\OutputWriter.cs" />
+    <Compile Include="Common\AppConstants.cs" />
+    <Compile Include="Common\AppInterfaces.cs" />
+    <Compile Include="Common\OutputWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ConferenceManagerLibrary\ConferenceTrackHandler.cs" />
     <Compile Include="ConferenceManagerLibrary\ConferenceModels.cs" />
@@ -56,7 +56,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Input\input.txt" />
+    <Content Include="AppInputs\input.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,9 @@
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManagerTests\bin\Debug\ConferenceTrackManagerTests.dll
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManagerTests\bin\Debug\ConferenceTrackManagerTests.pdb
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManagerTests\bin\Debug\ConferenceTrackManager.exe
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManagerTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManagerTests\bin\Debug\ConferenceTrackManager.pdb
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManagerTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManagerTests\obj\Debug\ConferenceTrackManagerTests.csprojResolveAssemblyReference.cache
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManagerTests\obj\Debug\ConferenceTrackManagerTests.dll
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManagerTests\obj\Debug\ConferenceTrackManagerTests.pdb

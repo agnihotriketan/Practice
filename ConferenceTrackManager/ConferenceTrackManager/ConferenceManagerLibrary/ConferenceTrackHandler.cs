@@ -18,28 +18,7 @@ namespace ConferenceTrackHandler
             conferenceTrackGenerator = _conferenceTrackGenerator;
             parserInputService = _parserInputService;
             outputService = _outputService;
-        }
-
-       /* #region GetterSetter
-        public IConferenceTrackGenerator ConferenceTrackGenerator
-        {
-            get { return conferenceTrackGenerator; }
-            set { conferenceTrackGenerator = value; }
-        }
-
-        public IParserInputService InputParserService
-        {
-            get { return parserInputService; }
-            set { parserInputService = value; }
-        }
-
-        public IOutputWriterService OutputService
-        {
-            get { return outputService; }
-            set { outputService = value; }
-        }
-
-        #endregion*/
+        } 
 
         public void GetConferenceTrack(string filePath)
         {
