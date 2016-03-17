@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ConferenceModelLib
+namespace ConferenceModels
 {
     public class ConferenceEvent
     {
@@ -12,6 +12,6 @@ namespace ConferenceModelLib
 
     public class ConferenceTrack
     {
-        public List<ConferenceEvent> conferenceEventList { get; set; }
+        public List<ConferenceEvent> conferenceEventList { get; set; }= new List<ConferenceEvent>();
     }
 }

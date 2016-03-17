@@ -68,10 +68,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConferenceManagerLibrary\ParserInputService .cs" />
     <Compile Include="ConferenceManagerLibrary\ConferenceHandlerLib.cs" />
-    <Compile Include="OutputHandlerLib.cs" />
-    <Compile Include="AppInterfacesLib.cs" />
-    <Compile Include="ConferenceManagerLibrary\ConferenceModelLib.cs" />
+    <Compile Include="AppConstants.cs" />
+    <Compile Include="OutputWriter.cs" />
+    <Compile Include="AppInterfaces.cs" />
+    <Compile Include="ConferenceManagerLibrary\ConferenceModels.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,8 +1,10 @@
 ﻿using ConferenceHandlerLib;
-using AppInterfacesLib;
-using OutputHandlerLib;
+using AppInterfaces;
+using OutputWriter;
 using System;
-
+using static System.Console;
+using ConferenceManager.AppConstants;
+using InputParserServiceLib;
 
 namespace ConferenceTrackManager
 {
@@ -13,25 +15,26 @@ namespace ConferenceTrackManager
             try
             {
 
-                Console.WriteLine("Welcome Conference Track Manager");
-                Console.WriteLine("Input file path is 'D:/MyGit/Practice/ConferenceTrackManager/Input/input.txt' ");
-                Console.WriteLine("Do you want to change track input file path ? ");
-                var inputPath = Console.ReadLine();
+                WriteLine(AppConstants.welcomeMessage + "\n" + AppConstants.InputFilePathMessage + "\n" + AppConstants.changeInputFilePathMessage);
+
+                var inputPath = ReadLine();
                 if (!string.IsNullOrWhiteSpace(inputPath) && inputPath.Trim().ToLower().StartsWith("y"))
                 {
-                    Console.WriteLine("Please enter full input file path:");
-                    inputPath = Console.ReadLine();
+                    WriteLine(AppConstants.getInputFilePathMessage);
+                    inputPath = ReadLine();
                 }
                 else
-                    inputPath = "D:/MyGit/Practice/ConferenceTrackManager/Input/input.txt";
+                    inputPath = AppConstants.InputFilePath;
 
                 if (string.IsNullOrWhiteSpace(inputPath))
-                    throw new Exception("no argument found");
+                    throw new Exception(AppConstants.argumentExceptionMessage);
 
-                IConferenceTrackManager conferenceTrackManager = new ConferenceTrackManagement(new ConferenceTrackGenerator(), new InputParserService(), new ConsoleOutputService());
-                conferenceTrackManager.getConferenceTrack(inputPath);
+                using (IConferenceTrackManager conferenceTrackManager = new ConferenceHandlerLib.ConferenceTrackManager(new ConferenceTrackGenerator(), new ParserInputService(), new OutputWriterService()))
+                {
+                    conferenceTrackManager.GetConferenceTrack(inputPath);
+                }
 
-                Console.ReadLine();
+                ReadLine();
             }
             catch (Exception)
             {

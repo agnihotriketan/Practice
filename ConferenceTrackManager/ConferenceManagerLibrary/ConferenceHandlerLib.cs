@@ -1,171 +1,141 @@
-﻿using ConferenceModelLib;
-using AppInterfacesLib;
+﻿using ConferenceModels;
+using AppInterfaces;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-
+using ConferenceManager.AppConstants;
 
 namespace ConferenceHandlerLib
 {
-    public class InputParserService : IInputParserService
+    public class ConferenceTrackManager : IConferenceTrackManager, IDisposable
     {
-        public IEnumerable<ConferenceEvent> parseFile(string filePath)
+        private IConferenceTrackGenerator conferenceTrackGenerator;
+        private IParserInputService parserInputService;
+        private IOutputWriterService outputService;
+
+        public ConferenceTrackManager(IConferenceTrackGenerator _conferenceTrackGenerator, IParserInputService _parserInputService, IOutputWriterService _outputService)
+        {
+            conferenceTrackGenerator = _conferenceTrackGenerator;
+            parserInputService = _parserInputService;
+            outputService = _outputService;
+        }
+
+        #region GetterSetter
+        public IConferenceTrackGenerator ConferenceTrackGenerator
+        {
+            get { return conferenceTrackGenerator; }
+            set { conferenceTrackGenerator = value; }
+        }
+
+        public IParserInputService InputParserService
+        {
+            get { return parserInputService; }
+            set { parserInputService = value; }
+        }
+
+        public IOutputWriterService OutputService
+        {
+            get { return outputService; }
+            set { outputService = value; }
+        }
+
+        #endregion
+
+        public void GetConferenceTrack(string filePath)
         {
             try
             {
-                string[] arr = File.ReadAllLines(filePath);
+                IEnumerable<ConferenceEvent> conferenceEvents = parserInputService.ParseFile(filePath);
+                List<ConferenceTrack> conferenceTrackList = conferenceTrackGenerator.GenerateConferenceTrack(conferenceEvents);
 
-                if (arr.Length == 0) throw new Exception("File is empty");
-
-                var v2 = (from val in
-                              (from temp in arr
-                               select new
-                               {
-                                   t1 = temp.Substring(0, temp.LastIndexOf(' ')).Trim(),
-                                   d1 = temp.Substring(temp.LastIndexOf(' ') + 1, temp.Length - temp.LastIndexOf(' ') - 1).ToLower()
-                               })
-                          select new ConferenceEvent
-                          {
-                              title = val.t1,
-                              duration = val.d1.Contains("min") ? Convert.ToInt32(val.d1.Replace("min", "")) : (val.d1.Equals("lightning") ? 5 : 0)
-                          }).ToList();
-                return v2;
-            }
-            catch (FileNotFoundException ex)
-            {
-                throw ex;
-            }
-            catch (FormatException ex)
-            {
-                throw ex;
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw ex;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-    }
-    public interface IInputParserService
-    {
-        IEnumerable<ConferenceEvent> parseFile(string path);
-    }
-
-    public class ConferenceTrackManagement : IConferenceTrackManager
-    {
-        IConferenceTrackGenerator conferenceTrackGenerator;
-        IInputParserService inputParserService;
-        IOutputService outputService;
-
-        public ConferenceTrackManagement(IConferenceTrackGenerator conferenceTrackGenerator, IInputParserService inputParserService, IOutputService outputService)
-        {
-            this.conferenceTrackGenerator = conferenceTrackGenerator;
-            this.inputParserService = inputParserService;
-            this.outputService = outputService;
-        }
-
-        public IConferenceTrackGenerator ConferenceTrackGenerator
-        {
-            get
-            {
-                return conferenceTrackGenerator;
-            }
-
-            set
-            {
-                conferenceTrackGenerator = value;
-            }
-        }
-
-        public IInputParserService InputParserService
-        {
-            get
-            {
-                return inputParserService;
-            }
-
-            set
-            {
-                inputParserService = value;
-            }
-        }
-
-        public IOutputService OutputService
-        {
-            get
-            {
-                return outputService;
-            }
-
-            set
-            {
-                outputService = value;
-            }
-        }
-
-        public void getConferenceTrack(string filePath)
-        {
-            IEnumerable<ConferenceEvent> conferenceEvents = inputParserService.parseFile(filePath);
-            List<ConferenceTrack> conferenceTrackList = conferenceTrackGenerator.execute(conferenceEvents);
-
-            for (int i = 0; i < conferenceTrackList.Count; i++)
-            {
-                outputService.writeMessage("* * * * * * * * * * * * * * ");
-                outputService.writeMessage("\t Track. 0" + (i + 1));
-                outputService.writeMessage("* * * * * * * * * * * * * * \n");
-                var list = conferenceTrackList[i].conferenceEventList.OrderBy(x => x.startTime);
-                foreach (ConferenceEvent conferenceEvent in list)
+                var trackCount = conferenceTrackList.Count;
+                for (int i = 0; i < trackCount; i++)
                 {
-                    outputService.writeMessage(conferenceEvent.startTime.ToString("t") + "\t" + conferenceEvent.title);
+                    outputService.WriteMessage(AppConstants.outputDecorator + "\t Track. 0" + (i + 1) + AppConstants.outputDecorator);
+                    DisplayTrack(conferenceTrackList, i);
                 }
-                outputService.writeMessage("\n\n");
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
+
+        private void DisplayTrack(List<ConferenceTrack> conferenceTrackList, int i)
+        {
+            var list = conferenceTrackList[i].conferenceEventList.OrderBy(x => x.startTime);
+            foreach (ConferenceEvent conferenceEvent in list)
+            {
+                outputService.WriteMessage(conferenceEvent.startTime.ToString("t") + "\t" + conferenceEvent.title);
+            }
+            outputService.WriteMessage("\n\n");
+        }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~ConferenceTrackManagement() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        void IDisposable.Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 
     public class ConferenceTrackGenerator : IConferenceTrackGenerator
     {
-        private DateTime getNewTrack
-        {
-            get
-            {
-                return new DateTime(0001, 1, 1, 09, 0, 0);
-            }
-        }
+        private DateTime getNewTrack { get; } = new DateTime(0001, 1, 1, 09, 0, 0);
 
-        public List<ConferenceTrack> execute(IEnumerable<ConferenceEvent> conferenceEvents)
+        public List<ConferenceTrack> GenerateConferenceTrack(IEnumerable<ConferenceEvent> conferenceEvents)
         {
             DateTime dateTime = getNewTrack;
             List<ConferenceTrack> conferenceTrackList = new List<ConferenceTrack>();
             TimeSpan ts = new TimeSpan();
-            ConferenceTrack conferenceTrack = new ConferenceTrack();
-            conferenceTrack.conferenceEventList = new List<ConferenceEvent>();
+            ConferenceTrack conferenceTrack = new ConferenceTrack(); 
             DateTime dt = new DateTime();
             scheduleDefalutEvents(conferenceTrack);
 
             foreach (ConferenceEvent conferenceEvent in conferenceEvents)
             {
-                createConferenceTrack(ref dateTime, conferenceTrackList, ref ts, ref conferenceTrack, ref dt, conferenceEvent);
+                createConferenceTrack(conferenceTrackList, ref conferenceTrack, conferenceEvent, ref dateTime, ref dt, ref ts);
             }
 
             conferenceTrackList.Add(conferenceTrack);
             return conferenceTrackList;
         }
 
-        private void createConferenceTrack(ref DateTime dateTime, List<ConferenceTrack> conferenceTrackList, ref TimeSpan ts, ref ConferenceTrack conferenceTrack, ref DateTime dt, ConferenceEvent conferenceEvent)
+        private void createConferenceTrack(List<ConferenceTrack> conferenceTrackList, ref ConferenceTrack conferenceTrack, ConferenceEvent conferenceEvent, ref DateTime dateTime, ref DateTime dt, ref TimeSpan ts)
         {
             bool flag = true;
             dt = dateTime.AddMinutes(conferenceEvent.duration);
 
-            // Go inside if time is in between less 9:00 AM to 12:00 PM 
             if (dateTime.Hour >= 9 && dt.Hour <= 12 && (dt.Hour == 12 ? (dt.Minute == 0 ? true : false) : true))
-            {
                 conferenceEvent.startTime = dateTime;
-            }
             else
             {
                 if (dt.Hour < 13)
@@ -176,17 +146,14 @@ namespace ConferenceHandlerLib
                 }
 
                 if (dateTime.Hour >= 13 && dt.Hour <= 17 && (dt.Hour == 17 ? (dt.Minute == 0 ? true : false) : true))
-                {
                     conferenceEvent.startTime = dateTime;
-                }
                 else
                 {
                     conferenceTrackList.Add(conferenceTrack);
-                    conferenceTrack = new ConferenceTrack();
-                    conferenceTrack.conferenceEventList = new List<ConferenceEvent>();
+                    conferenceTrack = new ConferenceTrack(); 
                     dateTime = getNewTrack;
                     scheduleDefalutEvents(conferenceTrack);
-                    createConferenceTrack(ref dateTime, conferenceTrackList, ref ts, ref conferenceTrack, ref dt, conferenceEvent);
+                    createConferenceTrack(conferenceTrackList, ref conferenceTrack, conferenceEvent, ref dateTime, ref dt, ref ts);
                     flag = false;
                 }
             }
@@ -200,18 +167,16 @@ namespace ConferenceHandlerLib
 
         private void scheduleDefalutEvents(ConferenceTrack conferenceTrack)
         {
-            //lunch Time
             conferenceTrack.conferenceEventList.Add(new ConferenceEvent()
             {
                 startTime = new DateTime(0001, 1, 1, 12, 0, 0),
-                title = "Lunch"
+                title = AppConstants.lunchEvent
             });
 
-            //Networking Event
             conferenceTrack.conferenceEventList.Add(new ConferenceEvent()
             {
                 startTime = new DateTime(0001, 1, 1, 17, 0, 0),
-                title = "Networking Event"
+                title = AppConstants.networkingEvent
             });
         }
     }
