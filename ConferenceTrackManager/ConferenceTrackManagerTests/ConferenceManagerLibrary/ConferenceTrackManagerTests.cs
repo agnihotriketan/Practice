@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using ConferenceTrackHandler;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ConferenceTrackHandler.Tests
 {
@@ -10,5 +11,6 @@ namespace ConferenceTrackHandler.Tests
         {
             Assert.Fail();
         }
+ 
     }
 }

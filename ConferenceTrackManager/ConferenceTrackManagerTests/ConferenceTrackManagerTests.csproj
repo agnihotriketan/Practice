@@ -51,7 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AppInputs\OutputWriterServiceTests.cs" />
+    <Compile Include="Common\OutputWriterServiceTests.cs" />
     <Compile Include="ConferenceManagerLibrary\ConferenceTrackGeneratorTests.cs" />
     <Compile Include="ConferenceManagerLibrary\ConferenceTrackManagerTests.cs" />
     <Compile Include="ConferenceManagerLibrary\ParserInputServiceTests.cs" />

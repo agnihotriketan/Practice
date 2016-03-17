@@ -5,6 +5,7 @@ using System;
 using static System.Console;
 using ConferenceManager.AppConstants;
 using InputParserServiceLib;
+using System.IO;
 
 namespace ConferenceTrackManager
 {
@@ -15,13 +16,14 @@ namespace ConferenceTrackManager
             try
             {
 
-                WriteLine(AppConstants.welcomeMessage + "\n" + AppConstants.InputFilePathMessage + "\n" + AppConstants.changeInputFilePathMessage);
+                WriteLine(AppConstants.outputDecorator+AppConstants.welcomeMessage + AppConstants.outputDecorator + "\n" + AppConstants.InputFilePathMessage + "\n" + AppConstants.changeInputFilePathMessage);
 
-                var inputPath = ReadLine();
+                string inputPath = ReadLine();
                 if (!string.IsNullOrWhiteSpace(inputPath) && inputPath.Trim().ToLower().StartsWith("y"))
                 {
                     WriteLine(AppConstants.getInputFilePathMessage);
                     inputPath = ReadLine();
+                    //if (File.Exists(inputPath))                        return;  //Validate file exists or not
                 }
                 else
                     inputPath =   AppConstants.InputFilePath;

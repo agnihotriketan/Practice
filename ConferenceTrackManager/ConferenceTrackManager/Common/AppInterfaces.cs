@@ -21,6 +21,6 @@ namespace AppInterfaces
 
     public interface IParserInputService
     {
-        IEnumerable<ConferenceEvent> ParseFile(string path);
+        IEnumerable<ConferenceEvent> ParseFile(string filePath);
     }
 }

@@ -18,7 +18,7 @@ namespace ConferenceTrackHandler
             conferenceTrackGenerator = _conferenceTrackGenerator;
             parserInputService = _parserInputService;
             outputService = _outputService;
-        } 
+        }
 
         public void GetConferenceTrack(string filePath)
         {
@@ -27,11 +27,11 @@ namespace ConferenceTrackHandler
                 IEnumerable<ConferenceEvent> conferenceEvents = parserInputService.ParseFile(filePath);
                 List<ConferenceTrack> conferenceTrackList = conferenceTrackGenerator.GenerateConferenceTrack(conferenceEvents);
 
-                var trackCount = conferenceTrackList.Count;
+                var trackCount = conferenceTrackList?.Count;
                 for (int i = 0; i < trackCount; i++)
                 {
                     outputService.WriteMessage(AppConstants.outputDecorator + "\t Track. 0" + (i + 1) + AppConstants.outputDecorator);
-                    DisplayTrack(conferenceTrackList, i);
+                    DisplaySingleTrack(conferenceTrackList, i);
                 }
             }
             catch (Exception)
@@ -40,12 +40,12 @@ namespace ConferenceTrackHandler
             }
         }
 
-        private void DisplayTrack(List<ConferenceTrack> conferenceTrackList, int i)
+        private void DisplaySingleTrack(List<ConferenceTrack> conferenceTrackList, int i)
         {
-            var list = conferenceTrackList[i].conferenceEventList.OrderBy(x => x.startTime);
+            var list = conferenceTrackList[i]?.conferenceEventList?.OrderBy(x => x.startTime);
             foreach (ConferenceEvent conferenceEvent in list)
             {
-                outputService.WriteMessage(conferenceEvent.startTime.ToString("t") + "\t" + conferenceEvent.title);
+                outputService.WriteMessage(conferenceEvent?.startTime.ToString("t") + "\t" + conferenceEvent.title);
             }
             outputService.WriteMessage("\n\n");
         }
@@ -95,20 +95,20 @@ namespace ConferenceTrackHandler
             DateTime dateTime = getNewTrack;
             List<ConferenceTrack> conferenceTrackList = new List<ConferenceTrack>();
             TimeSpan ts = new TimeSpan();
-            ConferenceTrack conferenceTrack = new ConferenceTrack(); 
+            ConferenceTrack conferenceTrack = new ConferenceTrack();
             DateTime dt = new DateTime();
-            scheduleDefalutEvents(conferenceTrack);
+            AddDefaultEvents(conferenceTrack);
 
             foreach (ConferenceEvent conferenceEvent in conferenceEvents)
             {
-                createConferenceTrack(conferenceTrackList, ref conferenceTrack, conferenceEvent, ref dateTime, ref dt, ref ts);
+                CreateConferenceTrack(conferenceTrackList, ref conferenceTrack, conferenceEvent, ref dateTime, ref dt, ref ts);
             }
 
             conferenceTrackList.Add(conferenceTrack);
             return conferenceTrackList;
         }
 
-        private void createConferenceTrack(List<ConferenceTrack> conferenceTrackList, ref ConferenceTrack conferenceTrack, ConferenceEvent conferenceEvent, ref DateTime dateTime, ref DateTime dt, ref TimeSpan ts)
+        private void CreateConferenceTrack(List<ConferenceTrack> conferenceTrackList, ref ConferenceTrack conferenceTrack, ConferenceEvent conferenceEvent, ref DateTime dateTime, ref DateTime dt, ref TimeSpan ts)
         {
             bool flag = true;
             dt = dateTime.AddMinutes(conferenceEvent.duration);
@@ -129,10 +129,10 @@ namespace ConferenceTrackHandler
                 else
                 {
                     conferenceTrackList.Add(conferenceTrack);
-                    conferenceTrack = new ConferenceTrack(); 
+                    conferenceTrack = new ConferenceTrack();
                     dateTime = getNewTrack;
-                    scheduleDefalutEvents(conferenceTrack);
-                    createConferenceTrack(conferenceTrackList, ref conferenceTrack, conferenceEvent, ref dateTime, ref dt, ref ts);
+                    AddDefaultEvents(conferenceTrack);
+                    CreateConferenceTrack(conferenceTrackList, ref conferenceTrack, conferenceEvent, ref dateTime, ref dt, ref ts);
                     flag = false;
                 }
             }
@@ -144,7 +144,7 @@ namespace ConferenceTrackHandler
             }
         }
 
-        private void scheduleDefalutEvents(ConferenceTrack conferenceTrack)
+        private void AddDefaultEvents(ConferenceTrack conferenceTrack)
         {
             conferenceTrack.conferenceEventList.Add(new ConferenceEvent()
             {
