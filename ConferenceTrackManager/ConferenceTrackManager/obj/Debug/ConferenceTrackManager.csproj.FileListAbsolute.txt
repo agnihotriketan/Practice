@@ -1,0 +1,6 @@
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManager\bin\Debug\ConferenceTrackManager.exe.config
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManager\bin\Debug\ConferenceTrackManager.exe
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManager\bin\Debug\ConferenceTrackManager.pdb
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManager\obj\Debug\ConferenceTrackManager.csprojResolveAssemblyReference.cache
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManager\obj\Debug\ConferenceTrackManager.exe
+D:\MyGit\Practice\ConferenceTrackManager\ConferenceTrackManager\obj\Debug\ConferenceTrackManager.pdb
