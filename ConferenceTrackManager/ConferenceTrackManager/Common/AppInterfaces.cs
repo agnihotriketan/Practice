@@ -17,6 +17,7 @@ namespace AppInterfaces
     public interface IOutputWriterService
     {
         void WriteMessage(string message);
+        void LogExceptions(string message);
     }
 
     public interface IParserInputService

@@ -17,6 +17,7 @@ namespace ConferenceTrackHandler
             TimeSpan ts = new TimeSpan();
             ConferenceTrack conferenceTrack = new ConferenceTrack();
             DateTime dt = new DateTime();
+
             AddDefaultEvents(conferenceTrack);
 
             foreach (ConferenceEvent conferenceEvent in conferenceEvents)

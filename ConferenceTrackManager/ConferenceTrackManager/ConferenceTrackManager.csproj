@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppInputs\input.txt" />
-    <Content Include="AppInputs\inputSecond.txt" />
+    <Content Include="AppLogsExceptions\AppLogsExceptions.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -34,8 +34,9 @@ namespace ConferenceTrackHandler
                     DisplaySingleTrack(conferenceTrackList, i);
                 } 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                outputService.LogExceptions(ex.Message + " -- " + DateTime.UtcNow.ToLocalTime());
                 throw;
             }
         }

@@ -5,7 +5,6 @@ using System;
 using static System.Console;
 using ConferenceManager.AppConstants;
 using InputParserServiceLib;
-using System.IO;
 
 namespace ConferenceTrackManager
 {
