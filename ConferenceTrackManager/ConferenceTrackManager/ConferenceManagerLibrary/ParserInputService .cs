@@ -9,6 +9,7 @@ namespace InputParserServiceLib
 {
     public class ParserInputService : IParserInputService
     {
+         
         public IEnumerable<ConferenceEvent> ParseFile(string filePath)
         {
             try

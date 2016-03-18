@@ -46,8 +46,9 @@
     <Compile Include="Common\AppConstants.cs" />
     <Compile Include="Common\AppInterfaces.cs" />
     <Compile Include="Common\OutputWriter.cs" />
+    <Compile Include="ConferenceManagerLibrary\ConferenceTrackGenerator.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ConferenceManagerLibrary\ConferenceTrackHandler.cs" />
+    <Compile Include="ConferenceManagerLibrary\ConferenceTrackManager.cs" />
     <Compile Include="ConferenceManagerLibrary\ConferenceModels.cs" />
     <Compile Include="ConferenceManagerLibrary\ParserInputService .cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppInputs\input.txt" />
+    <Content Include="AppInputs\inputSecond.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
